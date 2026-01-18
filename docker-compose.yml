@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+  redis:
+    image: redis:alpine
+  web:
+    build: ./web_app
+    ports: ["5000:5000"]
+    depends_on: [rabbitmq, redis]
+  worker:
+    build: ./worker
+    deploy:
+      replicas: 2 
+    depends_on: [rabbitmq, redis]
